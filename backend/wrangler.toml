@@ -3,11 +3,13 @@ main = "worker.py"
 compatibility_date = "2026-10-29"
 compatibility_flags = ["python_workers"]
 find_additional_modules = true
+base_dir = "static"
 preserve_file_names = true
 
 [[rules]]
 type = "Text"
-globs = ["admin.html"]
+globs = ["**/*.html"]
+fallthrough = false
 
 [[d1_databases]]
 binding = "DB"

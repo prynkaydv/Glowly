@@ -378,7 +378,7 @@ async def delete_user_review(request: Request, review_id: str, user_id: str = Qu
     return {"ok": True}
 @app.get("/api/admin")
 def admin_page() -> HTMLResponse:
-    return HTMLResponse((ROOT / "admin.html").read_text(encoding="utf-8"))
+    return HTMLResponse((ROOT / "static" / "admin.html").read_text(encoding="utf-8"))
 @app.post("/api/admin/login")
 def admin_login(request: Request, payload: AdminLogin) -> dict[str, str]:
     admin_password = get_setting(request, "ADMIN_PASSWORD")

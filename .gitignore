@@ -25,6 +25,8 @@ __pycache__/
 *.py[cod]
 .venv/
 **/.venv/
+**/.venv-workers/
+**/python_modules/
 
 # Secrets and local database files
 **/.env
