@@ -1,5 +1,5 @@
 name = "glowly-api"
-main = "worker.py"
+main = "static/worker.py"
 compatibility_date = "2026-10-29"
 compatibility_flags = ["python_workers"]
 find_additional_modules = true
