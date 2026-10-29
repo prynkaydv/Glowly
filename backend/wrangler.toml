@@ -12,5 +12,5 @@ globs = ["admin.html"]
 [[d1_databases]]
 binding = "DB"
 database_name = "glowly-db"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "175d0dd5-d05f-4c3e-a353-79792025a7cf"
 migrations_dir = "migrations"
