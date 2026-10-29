@@ -1,0 +1,17 @@
+[project]
+name = "glowly-api"
+version = "1.0.0"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "httpx>=0.28,<1",
+    "python-multipart>=0.0.20,<1",
+    "python-dotenv>=1.0,<2",
+    "pydantic>=2.11,<3",
+]
+
+[dependency-groups]
+dev = [
+    "workers-py",
+    "workers-runtime-sdk",
+]

@@ -1,0 +1,16 @@
+name = "glowly-api"
+main = "worker.py"
+compatibility_date = "2026-10-29"
+compatibility_flags = ["python_workers"]
+find_additional_modules = true
+preserve_file_names = true
+
+[[rules]]
+type = "Text"
+globs = ["admin.html"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "glowly-db"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
