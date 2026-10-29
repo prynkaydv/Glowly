@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Glowly · Admin</title>
+  <style>
+    :root{--ink:#273b31;--muted:#748078;--line:#e6ebe5;--green:#54785f;--pale:#f1f5ed;--paper:#fbfcf8;--white:#fff;--rose:#d9917b}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+    header{height:76px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100vw - 1220px)/2))}
+    .brand{font-size:23px;font-weight:750;letter-spacing:-.8px}.brand span{color:var(--green)}.tag{color:var(--muted);font-size:13px}
+    main{max-width:1220px;margin:34px auto;padding:0 24px}.heading{display:flex;align-items:end;justify-content:space-between;margin-bottom:24px}.heading h1{font-size:30px;letter-spacing:-1px;margin:0}.heading p{margin:6px 0 0;color:var(--muted)}
+    .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 6px 20px #19392208}.login{max-width:420px;margin:70px auto}.login h2{margin-top:0}
+    input,select,textarea{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;outline-color:var(--green)}label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}
+    button{font:inherit;border:0;border-radius:10px;background:var(--green);color:#fff;padding:11px 16px;cursor:pointer;font-weight:650}button.secondary{background:var(--pale);color:var(--ink)}button.danger{background:#fff0ed;color:#a94e40}button.small{padding:7px 10px;font-size:12px;margin-right:5px}
+    .error{color:#a94e40;min-height:22px;font-size:13px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 24px}.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px 19px}.stat b{display:block;font-size:28px;margin-top:3px}.stat span{color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(340px,.7fr);gap:18px;align-items:start}.section-title{font-size:18px;margin:0 0 16px}.table-wrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:13px}th{text-align:left;color:var(--muted);font-weight:600;background:#fafbf8}th,td{padding:11px 9px;border-bottom:1px solid var(--line);vertical-align:top}td .sub{color:var(--muted);font-size:12px}.pill{display:inline-block;background:var(--pale);border-radius:99px;padding:3px 9px;font-size:11px}.hidden{background:#fff0ed;color:#a94e40}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}.wide{grid-column:1/-1}.toolbar{display:flex;gap:8px;align-items:center}.toolbar button{white-space:nowrap}
+    #app{display:none}.section-card{margin-bottom:18px}.notice{padding:12px 14px;border-radius:12px;background:var(--pale);color:#526858;font-size:13px;margin:15px 0}
+    @media(max-width:850px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){header{padding:0 18px}main{padding:0 14px;margin-top:22px}.stats{gap:8px}.stat{padding:13px}.heading{align-items:start;gap:12px;flex-direction:column}.form-grid{grid-template-columns:1fr}.wide{grid-column:auto}}
+  </style>
+</head>
+<body>
+  <header><div class="brand">glow<span>ly</span></div><div class="tag">Workspace · Admin</div></header>
+  <main>
+    <section id="login" class="card login"><h2>Welcome back</h2><p class="tag">Sign in to manage Glowly reviews and curated products.</p><form id="login-form"><label for="password">Admin password</label><input id="password" type="password" autocomplete="current-password" required><p id="login-error" class="error"></p><button type="submit">Sign in</button></form></section>
+    <section id="app">
+      <div class="heading"><div><h1>Glowly admin</h1><p>Review moderation, product curation and catalog health.</p></div><div class="toolbar"><button class="secondary" id="refresh">Refresh</button><button class="secondary" id="logout">Sign out</button></div></div>
+      <div class="notice">Live Shopping listings come from SerpApi. Curated products you add here appear alongside live results. Review moderation applies to community reviews.</div>
+      <div id="stats" class="stats"></div>
+      <div class="grid">
+        <section class="card section-card"><h2 class="section-title">Community reviews</h2><div class="table-wrap"><table><thead><tr><th>Product / user</th><th>Rating</th><th>Experience</th><th>Moderation</th></tr></thead><tbody id="reviews"></tbody></table></div></section>
+        <section>
+          <div class="card section-card"><h2 class="section-title">Add curated product</h2><form id="product-form"><div class="form-grid">
+            <div class="wide"><label>Name</label><input name="name" required maxlength="180"></div><div><label>Brand / merchant</label><input name="brand" maxlength="100"></div><div><label>Category</label><input name="category" value="Skincare" maxlength="100"></div>
+            <div><label>Price</label><input name="price" type="number" min="0" step="0.01"></div><div><label>Currency</label><input name="currency" value="INR" maxlength="8"></div>
+            <div class="wide"><label>Image URL</label><input name="image_url" type="url"></div><div class="wide"><label>Product link</label><input name="product_url" type="url"></div>
+            <div class="wide"><label>Skin types (comma separated)</label><input name="skin_types" value="All"></div><div class="wide"><label>Description</label><textarea name="description" rows="3"></textarea></div>
+          </div><p id="product-error" class="error"></p><button type="submit">Add product</button></form></div>
+          <div class="card"><h2 class="section-title">Curated products</h2><div class="table-wrap"><table><thead><tr><th>Product</th><th>Price</th><th></th></tr></thead><tbody id="products"></tbody></table></div></div>
+        </section>
+      </div>
+    </section>
+  </main>
+<script>
+const $=id=>document.getElementById(id);let token=localStorage.getItem('glowly_admin_token')||'';
+async function api(path,options={}){const response=await fetch(path,{...options,headers:{'Content-Type':'application/json','X-Admin-Key':token,...(options.headers||{})}});const data=await response.json().catch(()=>({detail:'Unexpected server response'}));if(!response.ok)throw new Error(data.detail||'Request failed');return data}
+function cell(value){const td=document.createElement('td');td.textContent=value??'';return td}function btn(label,cls,action){const b=document.createElement('button');b.textContent=label;b.className='small '+cls;b.onclick=action;return b}
+function renderRows(data){const stats=$('stats');stats.replaceChildren();[['All reviews',data.stats.total_reviews],['Visible',data.stats.visible_reviews],['Hidden',data.stats.hidden_reviews],['Curated products',data.stats.curated_products]].forEach(([label,value])=>{const d=document.createElement('div');d.className='stat';const s=document.createElement('span');s.textContent=label;const b=document.createElement('b');b.textContent=value;d.append(s,b);stats.append(d)});
+ const reviews=$('reviews');reviews.replaceChildren();data.reviews.forEach(r=>{const tr=document.createElement('tr'),n=cell(r.product_name);const sub=document.createElement('div');sub.className='sub';sub.textContent='User '+r.user_id.slice(0,10)+' · '+new Date(r.created_at).toLocaleDateString();n.append(sub);tr.append(n,cell('★'.repeat(r.rating)),cell([r.skin_type,r.duration,r.reaction,r.notes].filter(Boolean).join(' · ')));const actions=cell('');actions.append(btn(r.hidden?'Show':'Hide','secondary',async()=>{await api(`/api/admin/reviews/${r.id}/visibility?hidden=${!r.hidden}`,{method:'PATCH'});load()}),btn('Delete','danger',async()=>{if(confirm('Delete this review permanently?')){await api(`/api/admin/reviews/${r.id}`,{method:'DELETE'});load()}}));tr.append(actions);reviews.append(tr)});
+ const products=$('products');products.replaceChildren();data.products.forEach(p=>{const tr=document.createElement('tr');tr.append(cell(p.name),cell(p.price==null?'—':`${p.currency} ${p.price}`));const actions=cell('');actions.append(btn('Remove','danger',async()=>{if(confirm('Remove this curated product?')){await api(`/api/admin/products/${p.id}`,{method:'DELETE'});load()}}));tr.append(actions);products.append(tr)})}
+async function load(){try{renderRows(await api('/api/admin/overview'))}catch(e){if(e.message.includes('401')){logout()}else alert(e.message)}}
+function showApp(){ $('login').style.display='none';$('app').style.display='block';load() }function logout(){token='';localStorage.removeItem('glowly_admin_token');$('app').style.display='none';$('login').style.display='block'}
+$('login-form').onsubmit=async e=>{e.preventDefault();$('login-error').textContent='';try{const r=await fetch('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('password').value})});const d=await r.json();if(!r.ok)throw new Error(d.detail||'Sign in failed');token=d.token;localStorage.setItem('glowly_admin_token',token);showApp()}catch(err){$('login-error').textContent=err.message}};
+$('product-form').onsubmit=async e=>{e.preventDefault();$('product-error').textContent='';const f=new FormData(e.currentTarget),p=Object.fromEntries(f.entries());p.price=p.price?Number(p.price):null;try{await api('/api/admin/products',{method:'POST',body:JSON.stringify(p)});e.currentTarget.reset();e.currentTarget.elements.currency.value='INR';e.currentTarget.elements.category.value='Skincare';e.currentTarget.elements.skin_types.value='All';load()}catch(err){$('product-error').textContent=err.message}};
+$('refresh').onclick=load;$('logout').onclick=logout;if(token)showApp();
+</script></body></html>
